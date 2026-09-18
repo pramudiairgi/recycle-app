@@ -1,58 +1,50 @@
 const CACHE = 'recycle-v1';
 const SHELL = ['/', '/manifest.json'];
 
-interface SyncEvent extends ExtendableEvent {
-	readonly tag: string;
-}
-
-self.addEventListener('install', (event) => {
-	const e = event as ExtendableEvent;
-	e.waitUntil(
+self.addEventListener('install', (event: any) => {
+	event.waitUntil(
 		caches
 			.open(CACHE)
-			.then((cache) => cache.addAll(SHELL))
-			.then(() => (self as unknown as ServiceWorkerGlobalScope).skipWaiting()),
+			.then((cache: any) => cache.addAll(SHELL))
+			.then(() => (self as any).skipWaiting()),
 	);
 });
 
-self.addEventListener('activate', (event) => {
-	const e = event as ExtendableEvent;
-	e.waitUntil(
+self.addEventListener('activate', (event: any) => {
+	event.waitUntil(
 		caches
 			.keys()
-			.then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
-			.then(() => (self as unknown as ServiceWorkerGlobalScope).clients.claim()),
+			.then((keys: string[]) => Promise.all(keys.filter((k: string) => k !== CACHE).map((k: string) => caches.delete(k))))
+			.then(() => (self as any).clients.claim()),
 	);
 });
 
-self.addEventListener('fetch', (event) => {
-	const e = event as FetchEvent;
-	const url = new URL(e.request.url);
-	if (e.request.method !== 'GET' || url.origin !== location.origin) return;
-	e.respondWith(
-		fetch(e.request)
-			.then((res) => {
+self.addEventListener('fetch', (event: any) => {
+	const url = new URL(event.request.url);
+	if (event.request.method !== 'GET' || url.origin !== location.origin) return;
+	event.respondWith(
+		fetch(event.request)
+			.then((res: any) => {
 				const copy = res.clone();
-				caches.open(CACHE).then((cache) => cache.put(e.request, copy));
+				caches.open(CACHE).then((cache: any) => cache.put(event.request, copy));
 				return res;
 			})
 			.catch(() =>
-				caches.match(e.request).then(
-					(hit) =>
+				caches.match(event.request).then(
+					(hit: any) =>
 						hit ??
-						(e.request.mode === 'navigate'
-							? caches.match('/').then((r) => r as Response)
+						(event.request.mode === 'navigate'
+							? caches.match('/').then((r: any) => r)
 							: Promise.reject(new Error('offline'))),
 				),
 			),
 	);
 });
 
-self.addEventListener('sync', (event) => {
-	const e = event as SyncEvent;
-	if (e.tag === 'recycle-sync') {
-		e.waitUntil(
-			(self as unknown as ServiceWorkerGlobalScope).clients.matchAll().then((clients) => {
+self.addEventListener('sync', (event: any) => {
+	if (event.tag === 'recycle-sync') {
+		event.waitUntil(
+			(self as any).clients.matchAll().then((clients: any[]) => {
 				for (const c of clients) c.postMessage({ type: 'FLUSH_OUTBOX' });
 			}),
 		);
