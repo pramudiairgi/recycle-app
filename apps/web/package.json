@@ -1,0 +1,1 @@
+{"name": "@recycle-app/web", "version": "0.1.0", "private": true, "type": "module", "scripts": {"dev": "vite dev", "build": "vite build", "preview": "vite preview"}, "dependencies": {"@sveltejs/adapter-auto": "^5.0.0", "svelte": "^5.0.0"}, "devDependencies": {"@sveltejs/vite-plugin-svelte": "^4.0.0", "@types/node": "^22.0.0", "typescript": "^5.7.0"}}

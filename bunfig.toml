@@ -1,0 +1,8 @@
+[install]
+registry = "https://registry.npmjs.org"
+
+[workspace]
+members = ["apps/*", "packages/*"]
+
+[scripts]
+typecheck = "bunx tsc --noEmit"

@@ -1,0 +1,53 @@
+# Dependencies
+node_modules/
+.bun/
+
+# Build output
+dist/
+.build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Coverage
+coverage/
+
+# Database
+*.sqlite
+*.db
+
+# Docker
+Dockerfile.prod
+compose.yaml
+
+# Secrets
+*.pem
+*.key
+*.secret
+
+# Internal
+.opencode/
+.codex/
+.omo/
+.codegraph/
+
+# Migrations (generated, commit SQL)
+!packages/db/src/migrations/.gitkeep
+packages/db/migrations/*.sql
+!packages/db/migrations/.gitkeep
