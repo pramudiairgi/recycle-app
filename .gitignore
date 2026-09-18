@@ -49,5 +49,5 @@ compose.yaml
 
 # Migrations (generated, commit SQL)
 !packages/db/src/migrations/.gitkeep
-packages/db/migrations/*.sql
-!packages/db/migrations/.gitkeep
+!packages/db/migrations/*.sql
+!packages/db/migrations/meta/
